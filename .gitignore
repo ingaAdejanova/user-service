@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+
+# IDE/Editor specific files
+.vscode/
+
+# OS generated files
+.DS_Store
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# Dependency lock files
+yarn.lock
