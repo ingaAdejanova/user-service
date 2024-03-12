@@ -1,5 +1,5 @@
 import pool from '../../db';
-import { User } from './users.dt';
+import { User } from './users';
 
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
   const { name, email } = userData;

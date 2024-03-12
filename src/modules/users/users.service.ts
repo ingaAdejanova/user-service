@@ -1,20 +1,34 @@
-import { createUser as createUserInDb, getUsers, getUserById, updateUserById, deleteUserById } from './users.repo';
-import { BadRequestException, NotFoundException, ERROR_MAPINGS } from '../../exceptions';
-import { User } from './users.dt';
+import { createUser as createUserInDb, getUserById, updateUserById, deleteUserById } from './users.repo';
+import { User } from './users';
+import { BadRequestException } from '../../exceptions';
 
-export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User | undefined> {
+export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
   try {
     return await createUserInDb(userData);
   } catch (error) {
-    new BadRequestException('Failed to create user');
+    throw new BadRequestException('Failed to create user');
   }
 }
 
-export async function getAllUsers(): Promise<User[] | undefined> {
+// export async function getAllUsers(): Promise<User[]> {
+//   try {
+//     return await getUsers();
+//   } catch (error) {
+//     throw new BadRequestException('Failed to fetch users');
+//   }
+// }
+
+export async function getAllUsers() {
   try {
-    return await getUsers();
+    // return await getUsers();
+    return [
+      {
+        name: 'Inga',
+        email: 'inga@inbox.lv',
+      },
+    ];
   } catch (error) {
-    new BadRequestException('Failed to fetch users');
+    throw new BadRequestException('Failed to fetch users');
   }
 }
 
@@ -22,7 +36,7 @@ export async function getUser(userId: string): Promise<User | undefined> {
   try {
     return await getUserById(userId);
   } catch (error) {
-    new BadRequestException('Failed to fetch user');
+    throw new BadRequestException('Failed to fetch user');
   }
 }
 
@@ -30,14 +44,14 @@ export async function updateUser(userId: string, userData: Partial<User>): Promi
   try {
     return await updateUserById(userId, userData);
   } catch (error) {
-    new BadRequestException('Failed to update user');
+    throw new BadRequestException('Failed to update user');
   }
 }
 
-export async function deleteUser(userId: string): Promise<boolean | undefined> {
+export async function deleteUser(userId: string): Promise<boolean> {
   try {
     return await deleteUserById(userId);
   } catch (error) {
-    new BadRequestException('Failed to delete user');
+    throw new BadRequestException('Failed to delete user');
   }
 }
