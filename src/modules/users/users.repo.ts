@@ -3,9 +3,8 @@ import { User } from './users.dt';
 
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
   const { name, email } = userData;
-  const createdAt = new Date();
-  const query = 'INSERT INTO users (name, email, created_at) VALUES ($1, $2, $3) RETURNING *';
-  const { rows } = await db.query(query, [name, email, createdAt]);
+  const query = 'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *';
+  const { rows } = await db.query(query, [name, email]);
   return rows[0];
 }
 

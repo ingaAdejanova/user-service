@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier": "prettier --write \"**/*.ts\"",
-    "build": "tsc"
+    "build": "tsc",
+    "migrate": "node-pg-migrate --no-check-order"
   },
   "author": "Inga Adejanova",
   "license": "MIT",

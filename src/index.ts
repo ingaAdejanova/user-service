@@ -1,12 +1,12 @@
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
-import pool from '../src/db';
+import db from '../src/db';
 
 import userController from '../src/modules/users/users.controller';
 import { errorHandler } from './exceptions/errorHandler';
 
 const fastify = Fastify({ logger: true });
 
-fastify.decorate('pg', pool);
+fastify.decorate('pg', db.pool);
 
 fastify.register(userController);
 

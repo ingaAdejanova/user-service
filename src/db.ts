@@ -8,12 +8,14 @@ const pool = new Pool({
 
 export async function query(sql: string, params?: any[]): Promise<any> {
   try {
-    const { rows } = await pool.query(sql, params);
-    return rows;
+    return pool.query(sql, params);
   } catch (error) {
     console.error('Error executing SQL query:', error);
     throw error;
   }
 }
 
-export default pool;
+export default {
+  pool,
+  query,
+};
