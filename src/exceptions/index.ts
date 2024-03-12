@@ -1,3 +1,4 @@
-export { BadRequestException } from './bad-request-exception';
-export { NotFoundException } from './not-found-exception';
-export { ERROR_MAPINGS } from './constants';
+export { BadRequestException } from './badRequestError';
+export { NotFoundException } from './notFoundError';
+export { ERROR_MAPINGS } from './errorConstants';
+export { errorHandler } from './errorHandler';

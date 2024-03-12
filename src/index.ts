@@ -1,23 +1,24 @@
-import fastify from 'fastify';
-// import { Pool } from 'pg';
+import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
+import pool from '../src/db';
 
 import userController from '../src/modules/users/users.controller';
+import { errorHandler } from './exceptions/errorHandler';
 
-const app = fastify({ logger: true });
+const fastify = Fastify({ logger: true });
 
-// const pool = new Pool({
-//   connectionString: 'your-postgres-connection-string',
-// });
+fastify.decorate('pg', pool);
 
-// app.decorate('pg', pool);
+fastify.register(userController);
 
-app.register(userController);
+fastify.setErrorHandler((error: Error, request: FastifyRequest, reply: FastifyReply) => {
+  errorHandler(error, reply);
+});
 
 const start = async () => {
   try {
-    await app.listen(process.env.PORT || 3000);
+    await fastify.listen(process.env.PORT || 3000);
   } catch (err) {
-    app.log.error(err);
+    fastify.log.error(err);
     process.exit(1);
   }
 };

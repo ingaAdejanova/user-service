@@ -17,6 +17,7 @@ export const createUserSchema = {
     body: userBodySchema,
     response: {
       201: userResponseSchema,
+      '4xx': errorSchema,
     },
   },
 };
@@ -25,6 +26,7 @@ export const getUsersSchema = {
   schema: {
     response: {
       200: S.array().items(userResponseSchema),
+      '4xx': errorSchema,
     },
   },
 };
@@ -33,7 +35,7 @@ export const getUserSchema = {
   schema: {
     response: {
       200: userResponseSchema,
-      404: errorSchema,
+      '4xx': errorSchema,
     },
   },
 };
@@ -43,7 +45,7 @@ export const updateUserSchema = {
     body: userBodySchema,
     response: {
       200: userResponseSchema,
-      404: errorSchema,
+      '4xx': errorSchema,
     },
   },
 };
@@ -52,7 +54,7 @@ export const deleteUserSchema = {
   schema: {
     response: {
       204: S.null(),
-      404: errorSchema,
+      '4xx': errorSchema,
     },
   },
 };

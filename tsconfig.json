@@ -5,7 +5,6 @@
     "strict": true /* Enable all strict type-checking options */,
     "esModuleInterop": true /* Enables interoperability between CommonJS and ES Modules */,
     "skipLibCheck": true /* Skip type checking of all declaration files (*.d.ts) */,
-    "forceConsistentCasingInFileNames": true /* Ensure consistent casing in file names */,
     "resolveJsonModule": true /* Allow importing .json files */,
     "outDir": "./dist" /* Redirect output structure to the directory */,
     "rootDir": "./src" /* Specify the root directory of input files */,

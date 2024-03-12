@@ -1,5 +1,5 @@
-import { createUser as createUserInDb, getUserById, updateUserById, deleteUserById } from './users.repo';
-import { User } from './users';
+import { createUser as createUserInDb, getUsers, getUserById, updateUserById, deleteUserById } from './users.repo';
+import { User } from './users.dt';
 import { BadRequestException } from '../../exceptions';
 
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
@@ -10,23 +10,9 @@ export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Prom
   }
 }
 
-// export async function getAllUsers(): Promise<User[]> {
-//   try {
-//     return await getUsers();
-//   } catch (error) {
-//     throw new BadRequestException('Failed to fetch users');
-//   }
-// }
-
-export async function getAllUsers() {
+export async function getAllUsers(): Promise<User[]> {
   try {
-    // return await getUsers();
-    return [
-      {
-        name: 'Inga',
-        email: 'inga@inbox.lv',
-      },
-    ];
+    return await getUsers();
   } catch (error) {
     throw new BadRequestException('Failed to fetch users');
   }

@@ -1,4 +1,4 @@
-import { ERROR_NAMES } from './constants';
+import { ERROR_NAMES } from './errorConstants';
 
 export class NotFoundException extends Error {
   constructor(message: string = 'Not found') {
