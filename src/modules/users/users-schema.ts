@@ -4,7 +4,7 @@ const userResponseSchema = S.object()
   .prop('id', S.string())
   .prop('name', S.string())
   .prop('email', S.string().format(S.FORMATS.EMAIL))
-  .prop('createdAt', S.string().format(S.FORMATS.DATE_TIME));
+  .prop('created_at', S.string().format(S.FORMATS.DATE_TIME));
 
 const userBodySchema = S.object()
   .prop('name', S.string().required())
@@ -25,7 +25,10 @@ export const createUserSchema = {
 export const getUsersSchema = {
   schema: {
     response: {
-      200: S.array().items(userResponseSchema),
+      200: S.object()
+        .prop('data', S.array().items(userResponseSchema))
+        .prop('next_cursor', S.string())
+        .prop('prev_cursor', S.string()),
       '4xx': errorSchema,
     },
   },

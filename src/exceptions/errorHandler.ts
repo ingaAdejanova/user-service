@@ -3,9 +3,18 @@ import { StatusCodes } from 'http-status-codes';
 import { ERROR_MAPINGS } from './errorConstants';
 
 export async function errorHandler(error: any, reply: FastifyReply): Promise<void> {
-  const errorType = (error as Error).constructor.name;
-  const statusCode = ERROR_MAPINGS[errorType] || StatusCodes.INTERNAL_SERVER_ERROR;
-  const errorMessage = statusCode === StatusCodes.INTERNAL_SERVER_ERROR ? 'Internal server error' : error.message;
+  const validationErrors = error?.validation;
 
-  reply.status(statusCode).send({ error: errorMessage });
+  if (!!validationErrors?.length) {
+    const { message, instancePath } = validationErrors[0];
+    const field = instancePath?.substring(1);
+
+    reply.status(StatusCodes.BAD_REQUEST).send({ error: `${field} ${message}` });
+  } else {
+    const errorType = (error as Error).constructor.name;
+    const statusCode = ERROR_MAPINGS[errorType] || StatusCodes.INTERNAL_SERVER_ERROR;
+    const errorMessage = statusCode === StatusCodes.INTERNAL_SERVER_ERROR ? 'Internal server error' : error.message;
+
+    reply.status(statusCode).send({ error: errorMessage });
+  }
 }

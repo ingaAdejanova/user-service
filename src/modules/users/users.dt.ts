@@ -4,3 +4,18 @@ export interface User {
   email: string;
   createdAt: Date;
 }
+
+export interface UserPayload {
+  name: string;
+  email: string;
+}
+
+export interface UserParams {
+  userId: string;
+}
+
+export interface PaginationResult<T> {
+  data: T[];
+  next_cursor: string | null;
+  prev_cursor: string | null;
+}
