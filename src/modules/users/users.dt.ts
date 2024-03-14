@@ -17,5 +17,4 @@ export interface UserParams {
 export interface PaginationResult<T> {
   data: T[];
   next_cursor: string | null;
-  prev_cursor: string | null;
 }

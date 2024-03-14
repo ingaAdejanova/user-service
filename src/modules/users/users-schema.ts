@@ -27,8 +27,7 @@ export const getUsersSchema = {
     response: {
       200: S.object()
         .prop('data', S.array().items(userResponseSchema))
-        .prop('next_cursor', S.string())
-        .prop('prev_cursor', S.string()),
+        .prop('next_cursor', S.anyOf([S.null(), S.string()])),
       '4xx': errorSchema,
     },
   },

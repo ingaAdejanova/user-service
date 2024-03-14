@@ -6,6 +6,7 @@ import { errorHandler } from '../../exceptions';
 import { UserPayload, UserParams } from './users.dt';
 
 const USER_NOT_FOUND_MESSAGE = 'The requested user could not be found.';
+const DEFAULT_PAGE_SIZE = 3;
 
 const userController: FastifyPluginCallback = (app: FastifyInstance, opts, done) => {
   app.post('/users', createUserSchema, createUserHandler);
@@ -29,12 +30,13 @@ async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>,
 }
 
 async function getUsersHandler(
-  request: FastifyRequest<{ Querystring: { cursor?: string; page_size?: number } }>,
+  request: FastifyRequest<{ Querystring: { limit?: string; next_cursor?: string } }>,
   reply: FastifyReply,
 ): Promise<void> {
   try {
-    const { cursor, page_size } = request.query;
-    const users = await getAllUsers({ cursor, pageSize: Number(page_size) });
+    const { limit, next_cursor } = request.query;
+    const pageSize = limit ? parseInt(limit, 10) : DEFAULT_PAGE_SIZE;
+    const users = await getAllUsers(pageSize, next_cursor);
 
     reply.status(StatusCodes.OK).send(users);
   } catch (error) {

@@ -34,35 +34,10 @@ export async function deleteUser(userId: string): Promise<boolean> {
   }
 }
 
-export async function getAllUsers({ cursor, pageSize = 2 }: any): Promise<PaginationResult<User>> {
+export async function getAllUsers(limit?: number, nextCursor?: string): Promise<PaginationResult<User>> {
   try {
-    const users = await getUsers({ cursor, pageSize });
-    return addPaginationCursors(users, pageSize, cursor);
+    return getUsers(limit, nextCursor);
   } catch (error) {
     throw new BadRequestException('Failed to fetch users');
   }
-}
-
-function addPaginationCursors(users: User[], pageSize: number, cursor?: string): PaginationResult<User> {
-  let nextCursor = null;
-  let prevCursor = null;
-
-  if (users?.length > pageSize) {
-    users.pop();
-    nextCursor = encodeCursor(users[users.length - 1].id);
-  }
-
-  if (cursor) {
-    prevCursor = cursor;
-  }
-
-  return {
-    data: users,
-    next_cursor: nextCursor,
-    prev_cursor: prevCursor,
-  };
-}
-
-function encodeCursor(id: string): string {
-  return Buffer.from(id.toString()).toString('base64');
 }

@@ -1,5 +1,5 @@
 import db from '../../db';
-import { User } from './users.dt';
+import { User, PaginationResult } from './users.dt';
 
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
   const { name, email } = userData;
@@ -27,23 +27,27 @@ export async function deleteUserById(userId: string): Promise<boolean> {
   return true;
 }
 
-export async function getUsers({ cursor, pageSize = 2 }: any): Promise<User[]> {
-  const baseQuery = 'SELECT * FROM users';
-  let query = baseQuery;
-  const params: any[] = [];
+export async function getUsers(limit = 10, nextCursor?: string): Promise<PaginationResult<User>> {
+  let query = 'SELECT * FROM users';
+  const values: any[] = [];
 
-  if (cursor) {
+  if (nextCursor) {
     query += ' WHERE id > $1';
-    params.push(decodeCursor(cursor));
+    values.push(nextCursor);
   }
 
-  query += ` ORDER BY id LIMIT $${params.length + 1}`;
-  params.push(pageSize + 1);
+  query += ` ORDER BY id ASC LIMIT $${nextCursor ? '2' : '1'}`;
 
-  const result = await db.query(query, params);
-  return result.rows;
-}
+  values.push(limit + 1);
 
-function decodeCursor(cursor: string): string {
-  return Buffer.from(cursor, 'base64').toString();
+  const { rows } = await db.query(query, values);
+
+  let nextCursorResult = null;
+
+  if (rows.length >= limit) {
+    rows.pop();
+    nextCursorResult = rows[rows.length - 1].id;
+  }
+
+  return { data: rows, next_cursor: nextCursorResult };
 }
