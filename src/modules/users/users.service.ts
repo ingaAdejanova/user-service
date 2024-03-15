@@ -2,6 +2,8 @@ import { createUser as createUserInDb, getUsers, getUserById, updateUserById, de
 import { User, PaginationResult } from './users.dt';
 import { BadRequestException } from '../../exceptions';
 
+const DEFAULT_PAGE_SIZE = 3;
+
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
   try {
     return createUserInDb(userData);
@@ -34,8 +36,9 @@ export async function deleteUser(userId: string): Promise<boolean> {
   }
 }
 
-export async function getAllUsers(limit?: number, nextCursor?: string): Promise<PaginationResult<User>> {
+export async function getAllUsers(pagaSize?: string, nextCursor?: string): Promise<PaginationResult<User>> {
   try {
+    const limit = pagaSize ? parseInt(pagaSize, 10) : DEFAULT_PAGE_SIZE;
     return getUsers(limit, nextCursor);
   } catch (error) {
     throw new BadRequestException('Failed to fetch users');

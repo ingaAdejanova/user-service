@@ -6,7 +6,7 @@ const pool = new Pool({
   connectionString: process.env.DB_CONNECTION_URL,
 });
 
-export async function query(sql: string, params?: any[]): Promise<any> {
+async function query(sql: string, params?: any[]): Promise<any> {
   try {
     return pool.query(sql, params);
   } catch (error) {

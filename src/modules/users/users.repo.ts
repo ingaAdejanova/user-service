@@ -1,4 +1,5 @@
 import db from '../../db';
+import { encodeCursor, decodeCursor } from './utils';
 import { User, PaginationResult } from './users.dt';
 
 export async function createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
@@ -27,17 +28,17 @@ export async function deleteUserById(userId: string): Promise<boolean> {
   return true;
 }
 
-export async function getUsers(limit = 10, nextCursor?: string): Promise<PaginationResult<User>> {
+export async function getUsers(limit: number, nextCursor?: string): Promise<PaginationResult<User>> {
   let query = 'SELECT * FROM users';
   const values: any[] = [];
 
   if (nextCursor) {
-    query += ' WHERE id > $1';
-    values.push(nextCursor);
+    const { created_at, id } = decodeCursor(nextCursor);
+    query += ' WHERE (created_at > $1) OR (created_at = $1 AND id > $2)';
+    values.push(created_at, id);
   }
 
-  query += ` ORDER BY id ASC LIMIT $${nextCursor ? '2' : '1'}`;
-
+  query += ` ORDER BY created_at ASC, id ASC LIMIT $${nextCursor ? '3' : '1'}`;
   values.push(limit + 1);
 
   const { rows } = await db.query(query, values);
@@ -46,7 +47,8 @@ export async function getUsers(limit = 10, nextCursor?: string): Promise<Paginat
 
   if (rows.length >= limit) {
     rows.pop();
-    nextCursorResult = rows[rows.length - 1].id;
+    const lastRow = rows[rows.length - 1];
+    nextCursorResult = encodeCursor(lastRow.created_at, lastRow.id);
   }
 
   return { data: rows, next_cursor: nextCursorResult };

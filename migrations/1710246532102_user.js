@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     },
     email: { type: 'text', notNull: true },
     name: { type: 'text', notNull: true },
-    created_at: { type: 'timestamp', notNull: true, default: pgm.func('current_timestamp') },
+    created_at: { type: 'timestamptz(3)', notNull: true, default: pgm.func('current_timestamp') },
   });
 };
 
