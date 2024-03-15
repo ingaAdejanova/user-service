@@ -15,6 +15,3 @@ dist/
 
 # Environment variables
 .env
-
-# Dependency lock files
-yarn.lock

@@ -38,7 +38,7 @@ export async function getUsers(limit: number, nextCursor?: string): Promise<Pagi
     values.push(created_at, id);
   }
 
-  query += ` ORDER BY created_at ASC, id ASC LIMIT $${nextCursor ? '3' : '1'}`;
+  query += ` ORDER BY created_at ASC, id ASC LIMIT $${values.length + 1}`;
   values.push(limit + 1);
 
   const { rows } = await db.query(query, values);
