@@ -36,9 +36,9 @@ export async function deleteUser(userId: string): Promise<boolean> {
   }
 }
 
-export async function getAllUsers(pagaSize?: string, nextCursor?: string): Promise<PaginationResult<User>> {
+export async function getAllUsers(pageSize?: string, nextCursor?: string): Promise<PaginationResult<User>> {
   try {
-    const limit = pagaSize ? parseInt(pagaSize, 10) : DEFAULT_PAGE_SIZE;
+    const limit = pageSize ? parseInt(pageSize, 10) : DEFAULT_PAGE_SIZE;
     return getUsers(limit, nextCursor);
   } catch (error) {
     throw new BadRequestException('Failed to fetch users');

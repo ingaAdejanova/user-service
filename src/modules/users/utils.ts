@@ -6,5 +6,5 @@ export function decodeCursor(cursor: string): { created_at: string; id: string }
   const decoded = Buffer.from(cursor, 'base64').toString();
   const [created_at, id] = decoded.split('_');
 
-  return { created_at: new Date(created_at).toISOString(), id };
+  return { created_at, id };
 }
