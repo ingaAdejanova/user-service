@@ -5,7 +5,7 @@ import { createUser, getAllUsers, getUser, updateUser, deleteUser } from './user
 import { errorHandler } from '../../exceptions';
 import { UserPayload, UserParams } from './users.dt';
 
-const USER_NOT_FOUND_MESSAGE = 'The requested user could not be found.';
+const USER_NOT_FOUND_MESSAGE = 'User not found';
 
 const userController: FastifyPluginCallback = (app: FastifyInstance, opts, done) => {
   app.post('/users', createUserSchema, createUserHandler);

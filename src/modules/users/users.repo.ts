@@ -16,9 +16,9 @@ export async function getUserById(userId: string): Promise<User> {
 }
 
 export async function updateUserById(userId: string, userData: Partial<User>): Promise<User> {
-  const { name, email } = userData;
-  const query = 'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *';
-  const { rows } = await db.query(query, [name, email, userId]);
+  const { name } = userData;
+  const query = 'UPDATE users SET name = $1 WHERE id = $2 RETURNING *';
+  const { rows } = await db.query(query, [name, userId]);
   return rows[0];
 }
 

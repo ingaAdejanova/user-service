@@ -6,15 +6,11 @@ const userResponseSchema = S.object()
   .prop('email', S.string().format(S.FORMATS.EMAIL))
   .prop('created_at', S.string().format(S.FORMATS.DATE_TIME));
 
-const userBodySchema = S.object()
-  .prop('name', S.string().required())
-  .prop('email', S.string().format(S.FORMATS.EMAIL).required());
-
 const errorSchema = S.object().prop('error', S.string());
 
 export const createUserSchema = {
   schema: {
-    body: userBodySchema,
+    body: S.object().prop('name', S.string().required()).prop('email', S.string().format(S.FORMATS.EMAIL).required()),
     response: {
       201: userResponseSchema,
       '4xx': errorSchema,
@@ -44,7 +40,7 @@ export const getUserSchema = {
 
 export const updateUserSchema = {
   schema: {
-    body: userBodySchema,
+    body: S.object().prop('name', S.string().required()),
     response: {
       200: userResponseSchema,
       '4xx': errorSchema,

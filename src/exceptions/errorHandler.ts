@@ -13,7 +13,7 @@ export async function errorHandler(error: any, reply: FastifyReply): Promise<voi
   } else {
     const errorType = (error as Error).constructor.name;
     const statusCode = ERROR_MAPINGS[errorType] || StatusCodes.INTERNAL_SERVER_ERROR;
-    const errorMessage = statusCode === StatusCodes.INTERNAL_SERVER_ERROR ? 'Internal server error' : error.message;
+    const errorMessage = error.message;
 
     reply.status(statusCode).send({ error: errorMessage });
   }
