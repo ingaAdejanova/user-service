@@ -1,8 +1,5 @@
-import request from 'supertest';
 import { FastifyInstance } from 'fastify';
-import { createServer } from '../src/index';
-
-const API_URL = '/users';
+import { createServer } from '../src/server';
 
 let app: FastifyInstance;
 
@@ -18,9 +15,15 @@ describe('User Controller', () => {
   it('should create a new user', async () => {
     const userData = { name: 'John Doe', email: 'john@example.com' };
 
-    const response = await request(app.server).post(API_URL).send(userData).expect(201);
+    const response = await app.inject({
+      method: 'POST',
+      url: '/users',
+      payload: userData,
+    });
 
-    const newUser = response.body;
+    expect(response.statusCode).toBe(201);
+
+    const newUser = JSON.parse(response.body);
 
     expect(newUser).toHaveProperty('id');
     expect(newUser).toHaveProperty('created_at');

@@ -1,28 +1,20 @@
-import Fastify, { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import db from '../src/db';
-import userController from '../src/modules/users/users.controller';
-import { errorHandler } from './exceptions/errorHandler';
+import dotenv from 'dotenv';
 
-const fastify = Fastify({ logger: true });
+dotenv.config();
 
-fastify.decorate('pg', db.pool);
+import { createServer } from './server';
 
-fastify.register(userController);
+async function startServer() {
+  const server = createServer();
+  const port = process.env.PORT || '3000';
 
-fastify.setErrorHandler((error: Error, request: FastifyRequest, reply: FastifyReply) => {
-  errorHandler(error, reply);
-});
-
-export async function createServer(): Promise<FastifyInstance> {
   try {
-    await fastify.listen(process.env.PORT || 3000);
-    return fastify;
-  } catch (err) {
-    fastify.log.error(err);
+    await server.listen(port);
+    server.log.info(`Server listening on port ${port}`);
+  } catch (error) {
+    server.log.error('Error starting server:', error);
     process.exit(1);
   }
 }
 
-if (!module.parent) {
-  createServer();
-}
+startServer();
