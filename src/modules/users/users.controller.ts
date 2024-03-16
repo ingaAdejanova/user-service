@@ -19,8 +19,7 @@ const userController: FastifyPluginCallback = (app: FastifyInstance, opts, done)
 
 async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>, reply: FastifyReply): Promise<void> {
   try {
-    const { name1, email } = request.body;
-
+    const { name, email } =vv request.body;
     const newUser = await createUser({ name, email });
 
     reply.status(StatusCodes.CREATED).send(newUser);
