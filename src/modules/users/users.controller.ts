@@ -34,7 +34,6 @@ async function getUsersHandler(
 ): Promise<void> {
   try {
     const { paga_size, next_cursor } = request.query;
-
     const users = await getAllUsers(paga_size, next_cursor);
 
     reply.status(StatusCodes.OK).send(users);
@@ -46,7 +45,6 @@ async function getUsersHandler(
 async function getUserHandler(request: FastifyRequest<{ Params: UserParams }>, reply: FastifyReply): Promise<void> {
   try {
     const { userId } = request.params;
-
     const user = await getUser(userId);
 
     if (!user) {

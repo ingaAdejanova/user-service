@@ -43,7 +43,7 @@ export async function getUsers(limit: number, nextCursor?: string): Promise<Pagi
 
   const { rows } = await db.query(query, values);
 
-  let nextCursorResult = null;
+  let nextCursorResult: string | null = null;
 
   if (rows.length >= limit) {
     rows.pop();
