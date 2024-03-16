@@ -1,20 +1,20 @@
-export interface User {
+export type User = {
   id: string;
   name: string;
   email: string;
   createdAt: Date;
-}
+};
 
-export interface UserPayload {
+export type UserPayload = {
   name: string;
   email: string;
-}
+};
 
-export interface UserParams {
+export type UserParams = {
   userId: string;
-}
+};
 
-export interface PaginationResult<T> {
+export type PaginationResult<T> = {
   data: T[];
   next_cursor: string | null;
-}
+};

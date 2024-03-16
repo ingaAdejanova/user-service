@@ -30,7 +30,7 @@ async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>,
 
 async function getUsersHandler(
   request: FastifyRequest<{ Querystring: { paga_size?: string; next_cursor?: string } }>,
-  reply: FastifyReply,
+  reply: FastifyReply
 ): Promise<void> {
   try {
     const { paga_size, next_cursor } = request.query;
@@ -60,7 +60,7 @@ async function getUserHandler(request: FastifyRequest<{ Params: UserParams }>, r
 
 async function updateUserHandler(
   request: FastifyRequest<{ Params: UserParams; Body: UserPayload }>,
-  reply: FastifyReply,
+  reply: FastifyReply
 ): Promise<void> {
   try {
     const { userId } = request.params;

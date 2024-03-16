@@ -19,7 +19,7 @@ const createUser = async (userData: any) => {
   const response = await app.inject({
     method: 'POST',
     url: '/users',
-    payload: userData,
+    payload: userData
   });
   return JSON.parse(response.body);
 };
@@ -27,7 +27,7 @@ const createUser = async (userData: any) => {
 const getUserById = async (userId: string) => {
   const response = await app.inject({
     method: 'GET',
-    url: `/users/${userId}`,
+    url: `/users/${userId}`
   });
   return JSON.parse(response.body);
 };
@@ -42,7 +42,7 @@ describe('User Controller', () => {
     it('should get user by ID', async () => {
       const response = await app.inject({
         method: 'GET',
-        url: `/users/${testUserId}`,
+        url: `/users/${testUserId}`
       });
 
       expect(response.statusCode).toBe(StatusCodes.OK);
@@ -59,7 +59,7 @@ describe('User Controller', () => {
 
       const response = await app.inject({
         method: 'GET',
-        url: `/users/${userId}`,
+        url: `/users/${userId}`
       });
 
       expect(response.statusCode).toBe(StatusCodes.NOT_FOUND);
@@ -76,7 +76,7 @@ describe('User Controller', () => {
       const response = await app.inject({
         method: 'PATCH',
         url: `/users/${testUserId}`,
-        payload: { name: newName },
+        payload: { name: newName }
       });
 
       expect(response.statusCode).toBe(StatusCodes.OK);
@@ -94,7 +94,7 @@ describe('User Controller', () => {
       const response = await app.inject({
         method: 'POST',
         url: '/users',
-        payload: newUser,
+        payload: newUser
       });
 
       expect(response.statusCode).toBe(StatusCodes.CREATED);
@@ -111,7 +111,7 @@ describe('User Controller', () => {
     it('should fetch users with default page size', async () => {
       const response = await app.inject({
         method: 'GET',
-        url: '/users',
+        url: '/users'
       });
 
       expect(response.statusCode).toBe(StatusCodes.OK);
@@ -127,7 +127,7 @@ describe('User Controller', () => {
     it('should delete user by ID', async () => {
       const response = await app.inject({
         method: 'DELETE',
-        url: `/users/${testUserId}`,
+        url: `/users/${testUserId}`
       });
 
       expect(response.statusCode).toBe(StatusCodes.NO_CONTENT);

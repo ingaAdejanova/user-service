@@ -5,7 +5,7 @@ import { ERROR_MAPINGS } from './errorConstants';
 export async function errorHandler(error: any, reply: FastifyReply): Promise<void> {
   const validationErrors = error?.validation;
 
-  if (!!validationErrors?.length) {
+  if (validationErrors?.length) {
     const { message, instancePath } = validationErrors[0];
     const field = instancePath?.substring(1);
 

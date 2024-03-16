@@ -1,12 +1,13 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+import { Pool, QueryResult } from 'pg';
 
-import { Pool } from 'pg';
+dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DB_CONNECTION_URL,
+  connectionString: process.env.DB_CONNECTION_URL
 });
 
-async function query(sql: string, params?: any[]): Promise<any> {
+async function query(sql: string, params?: any[]): Promise<QueryResult> {
   try {
     return pool.query(sql, params);
   } catch (error) {
@@ -17,5 +18,5 @@ async function query(sql: string, params?: any[]): Promise<any> {
 
 export default {
   pool,
-  query,
+  query
 };
