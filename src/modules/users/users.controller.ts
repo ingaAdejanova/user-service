@@ -1,23 +1,15 @@
-import { FastifyRequest, FastifyReply, FastifyInstance, FastifyPluginCallback } from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
-import { createUserSchema, getUsersSchema, getUserSchema, updateUserSchema, deleteUserSchema } from './users-schema';
 import { createUser, getAllUsers, getUser, updateUser, deleteUser } from './users.service';
 import { errorHandler } from '../../exceptions';
 import { UserPayload, UserParams } from './users.dt';
 
 const USER_NOT_FOUND_MESSAGE = 'User not found';
 
-const userController: FastifyPluginCallback = (app: FastifyInstance, opts, done) => {
-  app.post('/users', createUserSchema, createUserHandler);
-  app.get('/users', getUsersSchema, getUsersHandler);
-  app.get('/users/:userId', getUserSchema, getUserHandler);
-  app.patch('/users/:userId', updateUserSchema, updateUserHandler);
-  app.delete('/users/:userId', deleteUserSchema, deleteUserHandler);
-
-  done();
-};
-
-async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>, reply: FastifyReply): Promise<void> {
+export async function createUserHandler(
+  request: FastifyRequest<{ Body: UserPayload }>,
+  reply: FastifyReply
+): Promise<void> {
   try {
     const { name, email } = request.body;
     const newUser = await createUser({ name, email });
@@ -28,7 +20,7 @@ async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>,
   }
 }
 
-async function getUsersHandler(
+export async function getUsersHandler(
   request: FastifyRequest<{ Querystring: { paga_size?: string; next_cursor?: string } }>,
   reply: FastifyReply
 ): Promise<void> {
@@ -42,7 +34,10 @@ async function getUsersHandler(
   }
 }
 
-async function getUserHandler(request: FastifyRequest<{ Params: UserParams }>, reply: FastifyReply): Promise<void> {
+export async function getUserHandler(
+  request: FastifyRequest<{ Params: UserParams }>,
+  reply: FastifyReply
+): Promise<void> {
   try {
     const { userId } = request.params;
     const user = await getUser(userId);
@@ -58,7 +53,7 @@ async function getUserHandler(request: FastifyRequest<{ Params: UserParams }>, r
   }
 }
 
-async function updateUserHandler(
+export async function updateUserHandler(
   request: FastifyRequest<{ Params: UserParams; Body: UserPayload }>,
   reply: FastifyReply
 ): Promise<void> {
@@ -78,7 +73,10 @@ async function updateUserHandler(
   }
 }
 
-async function deleteUserHandler(request: FastifyRequest<{ Params: UserParams }>, reply: FastifyReply): Promise<void> {
+export async function deleteUserHandler(
+  request: FastifyRequest<{ Params: UserParams }>,
+  reply: FastifyReply
+): Promise<void> {
   try {
     const { userId } = request.params;
     const deletedUser = await deleteUser(userId);
@@ -93,5 +91,3 @@ async function deleteUserHandler(request: FastifyRequest<{ Params: UserParams }>
     errorHandler(error, reply);
   }
 }
-
-export default userController;
