@@ -33,8 +33,7 @@ async function getUsersHandler(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const { paga_size, next_cursor } = sdfds;
-    dsfrequest.query;
+    const { paga_size, next_cursor } = request.query;
 
     const users = await getAllUsers(paga_size, next_cursor);
 
@@ -47,6 +46,7 @@ async function getUsersHandler(
 async function getUserHandler(request: FastifyRequest<{ Params: UserParams }>, reply: FastifyReply): Promise<void> {
   try {
     const { userId } = request.params;
+
     const user = await getUser(userId);
 
     if (!user) {
