@@ -20,13 +20,15 @@
    yarn install
    ```
 
-3. Run database migrations:
+3. Set up your PostgreSQL database and configure your connection details in a .env file (copy .env-example and fill in your details).
+
+4. Run database migrations:
 
    ```bash
    yarn migrate up
    ```
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    yarn dev
    ```
