@@ -12,8 +12,7 @@
     "migrate": "node-pg-migrate --no-check-order",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "test:coverage": "jest --coverage",
-    "prepare": "husky install"
+    "test:coverage": "jest --coverage"
   },
   "author": "Inga Adejanova",
   "license": "MIT",
@@ -38,7 +37,7 @@
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "lint-staged": "^11.0.0",
-    "husky": "^8.0.0",
+    "husky": "^7.0.0",
     "prettier": "^3.2.5",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
@@ -52,14 +51,9 @@
       "**/?(*.)+(spec|test).ts"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "src/**/*.ts": [
-      "eslint --ext .ts --fix",
+    "*.{ts,tsx}": [
+      "eslint --ext .ts,.tsx --fix",
       "prettier --write"
     ]
   }

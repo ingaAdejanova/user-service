@@ -19,7 +19,7 @@ const userController: FastifyPluginCallback = (app: FastifyInstance, opts, done)
 
 async function createUserHandler(request: FastifyRequest<{ Body: UserPayload }>, reply: FastifyReply): Promise<void> {
   try {
-    const { name, email } =vvddd fg sdfdsfrequest.body;
+    const { name, email } = request.body;
     const newUser = await createUser({ name, email });
 
     reply.status(StatusCodes.CREATED).send(newUser);
@@ -34,6 +34,7 @@ async function getUsersHandler(
 ): Promise<void> {
   try {
     const { paga_size, next_cursor } = request.query;
+
     const users = await getAllUsers(paga_size, next_cursor);
 
     reply.status(StatusCodes.OK).send(users);
