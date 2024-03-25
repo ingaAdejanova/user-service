@@ -1,0 +1,32 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env # Path to your .env file
+    depends_on:
+      - db
+    volumes:
+      - .:/app # Bind mount for syncing local code with the container
+    networks:
+      - user-service-network
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data # Volume for persisting database data
+    networks:
+      - user-service-network
+
+volumes:
+  db-data:
+
+networks:
+  user-service-network:

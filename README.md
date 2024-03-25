@@ -29,8 +29,18 @@
    ```
 
 5. Start the development server:
+
    ```bash
    yarn dev
+   ```
+
+6. If you prefer using Docker, you can build and start the service using Docker Compose:
+
+   ```bash
+   docker-compose build
+   docker-compose up
+
+   Make sure to adjust the `DB_CONNECTION_URL` to `postgres://username:password@db:5432/postgres`.
    ```
 
 ## Testing
